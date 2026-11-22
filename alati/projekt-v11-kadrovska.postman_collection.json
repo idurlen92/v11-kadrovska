@@ -1,0 +1,747 @@
+{
+  "info": {
+    "_postman_id": "813a27bf-c830-4ffb-bcc9-7259309606a1",
+    "name": "projekt-v11-kadrovska",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "9352332"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "0 Health",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/health",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1 Auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.response.status === \"OK\"){\n    const response = pm.response.json();\n    pm.collectionVariables.set(\"bearerToken\", response.token);\n    console.log(\"Bearer token saved to global variable.\");\n}\nelse{\n    console.error(\"Error on login!\");\n}\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"marko\",\n    \"password\": \"Marko12345!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/auth/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"ivica\",\n    \"password\": \"ivica12345!\",\n    \"email\": \"ivica@mail.com\",\n    \"ime\": \"ivicai\",\n    \"prezime\": \"ivic\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/auth/register",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 Reset zahtjev",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"ivica\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/auth/reset-zahtjev",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "reset-zahtjev"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 Reset",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"66d001600f20a4551289810d8a1567b0\",\n    \"novaLozinka\": \"mac11111111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/auth/reset",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "reset"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 Ja",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/api/ja",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "ja"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Edukacije",
+      "item": [
+        {
+          "name": "1 Popis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/edukacije",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "edukacije"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Prijavi",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/edukacije/1/prijava",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "edukacije",
+                "1",
+                "prijava"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 Uvezi",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "<edukacije>\n  <edukacija>\n    <naziv>Excel za početnike</naziv>\n    <datum>2026-12-03</datum>\n    <kapacitet>15</kapacitet>\n  </edukacija>\n</edukacije>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/edukacije/uvoz",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "edukacije",
+                "uvoz"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Platne liste",
+      "item": [
+        {
+          "name": "1 Moje",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/platne-liste/moje",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "platne-liste",
+                "moje"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Dohvati",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/platne-liste/1?format=asfasf",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "platne-liste",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "format",
+                  "value": "asfasf"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 Preuzmi",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/platne-liste/preuzmi?datoteka=placa-ana-2026-10.txt",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "platne-liste",
+                "preuzmi"
+              ],
+              "query": [
+                {
+                  "key": "datoteka",
+                  "value": "placa-ana-2026-10.txt"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Zahtjevi",
+      "item": [
+        {
+          "name": "1 Moji zahtjevi",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/zahtjevi/moji",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "zahtjevi",
+                "moji"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Kreiraj zahtjev",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"od\": \"2026-12-01\",\n    \"do\": \"2026-12-02\",\n    \"razlog\": \"Zato\",\n    \"oib\": \"12345678901\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/zahtjevi",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "zahtjevi"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 Obrisi zahtjev",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"od\": \"2026-12-01\",\n    \"do\": \"2026-12-02\",\n    \"razlog\": \"Zato\",\n    \"oib\": \"12345678901\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/zahtjevi/3",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "zahtjevi",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Zaposlenici",
+      "item": [
+        {
+          "name": "1 Popis zaposlenika",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/zaposlenici",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "zaposlenici"
+              ],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "1%3B%20INSERT%20INTO%20zaposlenici%20(id%2C%20ime%2C%20prezime%2C%20odjel%2C%20email)%20VALUES%20(200%2C%20%271%27%2C%20%271%27%2C%20%271%27%2C%20%271%40mail.com%27)%3B--",
+                  "disabled": true
+                },
+                {
+                  "key": "smjer",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Postavke",
+      "item": [
+        {
+          "name": "1 Dohvati",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/postavke",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "postavke"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Spremi",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "file",
+              "file": {
+                "src": ""
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/postavke",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "postavke"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prijava",
+      "item": [
+        {
+          "name": "1. Pocetna",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Prijava",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/prijava",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "prijava"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Prijava forma",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "marko",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "Marko12345!",
+                  "type": "text"
+                },
+                {
+                  "key": "returnUrl",
+                  "value": "https://www.google.com",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseURL}}/prijava",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "prijava"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Reset",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/reset",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "reset"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. Reset forma",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "novaLozinka",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseURL}}/reset",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "reset"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ispis",
+      "item": [
+        {
+          "name": "1. Ispis zahtjeva",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/ispis/zahtjevi/2",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "ispis",
+                "zahtjevi",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": ""
+    },
+    {
+      "key": "bearerToken",
+      "value": ""
+    }
+  ]
+}
