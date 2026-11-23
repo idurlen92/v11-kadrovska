@@ -5,6 +5,18 @@ title = "devsecops"
 [extend]
 useDefault = true
 
-[allowlist]
+# Global allowlist: generated reports and CI tools.
+[[allowlists]]
 description = "Generirani izvještaji i alati"
-paths = ['''^izvjestaji/''', '''^\.ci-alati/''']
+paths = [
+    '''^izvjestaji/''',
+    '''^\.ci-alati/'''
+]
+
+# Rule-specific exception: ZAP session log.
+[[allowlists]]
+description = "Verified false positive in ZAP session log"
+targetRules = ["generic-api-key"]
+paths = [
+    '''^alati/prije/zap/v11-kadrovska-zap\.session\.log$'''
+]

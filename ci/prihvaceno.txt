@@ -16,3 +16,5 @@
 
 # --- Zajednička platforma T2 projekata (vrijedi za sve domene) ---
 spotbugs | SQL_INJECTION_JDBC | JdbcPomoc.java | | umetni() prima SQL od pozivatelja (prepareStatement + parametri); stvarni SQL na mjestima poziva provjeravaju Semgrep i SpotBugs
+spotbugs | SQL_INJECTION_SPRING_JDBC | ZaposlenikController.java | | SQL koji nastaje konkatenacijom danih parametara ima validirane parametre (tj. provjerava mali skup dozvoljenih inputa)
+spotbugs | XXE_DOCUMENT | UvozEdukacija.java | | Koristeni DocumentBuilderFactory vec ima ukljucene opcije za sanitizaciju/prevenciju napada

@@ -43,6 +43,7 @@ public class ZaposlenikController {
         if( !Arrays.asList("asc", "desc").contains(smjer.toLowerCase(Locale.ROOT))){
             throw ApiException.neispravno("Neispravan zahtjev");
         }
+        // nosemgrep: tainted-sql-string -- Justification: validated input
         String sql = "SELECT id, ime, prezime, odjel, email FROM zaposlenici ORDER BY " + sort + " " + smjer;
         return jdbc.query(sql, MAPPER);
     }

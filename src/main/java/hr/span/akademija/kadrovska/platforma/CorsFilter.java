@@ -59,6 +59,6 @@ public class CorsFilter extends OncePerRequestFilter {
     }
 
     private boolean dopusten(String origin) {
-        return origin.startsWith("http://") || origin.startsWith("https://");
+        return (origin.startsWith("http://") || origin.startsWith("https://")) && dopusteniOrigini.contains(origin);
     }
 }

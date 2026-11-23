@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
 
 /**
@@ -47,7 +49,7 @@ public class PostavkeController {
     public Map<String, Object> spremi(@RequestBody byte[] tijelo, PrijavljeniKorisnik korisnik) {
         Object dokument;
         try {
-            dokument = new Yaml().load(new ByteArrayInputStream(tijelo));
+            dokument = new Yaml(new SafeConstructor(new LoaderOptions())).load(new ByteArrayInputStream(tijelo));
         } catch (YAMLException e) {
             throw ApiException.neispravno("Neispravan YAML.");
         }

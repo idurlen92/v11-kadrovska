@@ -5,3 +5,13 @@
 # id = "GHSA-xxxx-xxxx-xxxx"
 # ignoreUntil = 2026-12-31
 # reason = "Ranjiva funkcija se ne koristi; nadogradnja čeka Spring Boot 3.5.x"
+
+[[IgnoredVulns]]
+id = "GHSA-j9f9-w8pj-32f8"
+ignoreUntil = 2026-12-31
+reason = "Zahtijeva major upgrade Spring Boota"
+
+[[IgnoredVulns]]
+id = "GHSA-pc63-qcmh-9cmg"
+ignoreUntil = 2026-12-31
+reason = "Zahtijeva major upgrade Spring Boota"
