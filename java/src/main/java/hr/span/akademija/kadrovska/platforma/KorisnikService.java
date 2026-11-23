@@ -56,7 +56,6 @@ public class KorisnikService {
         if (zahtjev == null || zahtjev.username() == null || zahtjev.password() == null) {
             return Optional.empty();
         }
-        log.info("Zahtjev za prijavu: {}", zahtjev);
         return pronadi(zahtjev.username())
                 .filter(k -> hasher.provjeri(zahtjev.password(), k.passwordHash()));
     }
@@ -78,7 +77,7 @@ public class KorisnikService {
         } catch (DuplicateKeyException e) {
             throw new ApiException(HttpStatus.CONFLICT, "Korisničko ime je zauzeto.");
         }
-        log.info("Registriran novi korisnik {}", zahtjev.username());
+        log.info("Registriran novi korisnik {}", StringUtils.replaceNewlines(zahtjev.username()));
         return pronadi(zahtjev.username()).orElseThrow();
     }
 

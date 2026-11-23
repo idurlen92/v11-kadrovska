@@ -2,7 +2,16 @@ package hr.span.akademija.kadrovska.platforma;
 
 import hr.span.akademija.kadrovska.platforma.KorisnikService.Korisnik;
 import hr.span.akademija.kadrovska.platforma.KorisnikService.PrijavaZahtjev;
+
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URL;
+import java.util.Map;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -15,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 /** HTML stranice: početna, prijava obrascem (postavlja kolačić SESSION) i promjena lozinke tokenom. */
 @Controller
 public class PrijavaController {
+
+    private static final Logger log = LoggerFactory.getLogger(PrijavaController.class);
 
     private final KorisnikService korisnici;
     private final TokenStore tokeni;
@@ -51,6 +62,9 @@ public class PrijavaController {
     public ResponseEntity<String> prijava(@RequestParam(required = false) String username,
                                           @RequestParam(required = false) String password,
                                           @RequestParam(required = false) String returnUrl) {
+        if(!allowedURL(returnUrl)){
+            throw ApiException.neispravno("Neispravan zahtjev");
+        }
         Optional<Korisnik> korisnik = korisnici.prijava(new PrijavaZahtjev(username, password));
         if (korisnik.isEmpty()) {
             return Html.odgovor(obrazacPrijave(returnUrl, "Neispravno korisničko ime ili lozinka."));
@@ -65,6 +79,51 @@ public class PrijavaController {
                 .header(HttpHeaders.LOCATION, odrediste(returnUrl))
                 .header(HttpHeaders.SET_COOKIE, kolacic.toString())
                 .build();
+    }
+
+    private boolean allowedURL(String returnUrl) {
+        if(returnUrl == null){
+            return true;
+        }
+        if(returnUrl.startsWith("/")){
+            return true;
+        }
+        try {
+            URI uri= URI.create(returnUrl);
+            if(!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())){
+                return false;
+            }
+            String host = uri.getHost();
+            if(host == null || !"localhost".equals(host)){
+                return false;
+            }
+
+            InetAddress[] addresses = InetAddress.getAllByName(host);
+            for (InetAddress address : addresses) {
+                if (isBlocked(address)) {
+                    return false;
+                }
+            }
+
+            URL target = uri.toURL();
+            HttpURLConnection connection = (HttpURLConnection) target.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("GET");
+
+            int status = connection.getResponseCode();
+            if (status >= 300 && status < 400) {
+                return false;
+            }
+
+            return true;
+        }
+        catch (Exception e){
+            log.error("Invalid URL: {}", e.getMessage());
+            return false;
+        }
+
     }
 
     @GetMapping("/reset")
@@ -123,4 +182,21 @@ public class PrijavaController {
         }
         return returnUrl;
     }
+
+    private boolean isBlocked(InetAddress address) {
+        if (address.isLoopbackAddress()       // 127.0.0.0/8, ::1
+                || address.isAnyLocalAddress() // 0.0.0.0, ::
+                || address.isLinkLocalAddress()  // 169.254/16 (cloud metadata), fe80::/10
+                || address.isSiteLocalAddress()) { // 10/8, 172.16/12, 192.168/16
+            return true;
+        }
+        byte[] bytes = address.getAddress();
+        // IPv6 Unique Local Address fc00::/7 (fc.. i fd..).
+        if (bytes.length == 16) {
+            int first = bytes[0] & 0xFF;
+            return (first & 0xFE) == 0xFC;
+        }
+        return false;
+    }
+
 }

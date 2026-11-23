@@ -6,6 +6,9 @@ import hr.span.akademija.kadrovska.platforma.KorisnikService.RegistracijaZahtjev
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     private final KorisnikService korisnici;
     private final TokenStore tokeni;
@@ -43,6 +48,8 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> login(@RequestBody PrijavaZahtjev zahtjev) {
         Optional<Korisnik> korisnik = korisnici.prijava(zahtjev);
         if (korisnik.isEmpty()) {
+            String usernameNormalized = StringUtils.replaceNewlines(zahtjev == null ? null : zahtjev.username());
+            log.warn("Neuspjesan zahtjev za prijavu, username: {}", usernameNormalized);
             return GreskeHandler.greska(HttpStatus.UNAUTHORIZED, "Neispravno korisničko ime ili lozinka.");
         }
         Korisnik k = korisnik.get();

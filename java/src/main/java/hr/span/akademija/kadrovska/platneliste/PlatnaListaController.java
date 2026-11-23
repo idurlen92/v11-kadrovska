@@ -67,18 +67,17 @@ public class PlatnaListaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> platnaLista(@PathVariable long id, @RequestParam(required = false) String format,
                                    PrijavljeniKorisnik korisnik) throws IOException {
+        String trazeni = format == null ? "JSON" : format.trim().toUpperCase(Locale.ROOT);
+        boolean validanFormat = Arrays.stream(Format.values()).anyMatch(f -> f.toString().equals(trazeni));
+        if(!validanFormat){
+            throw ApiException.neispravno("Neispravan format");
+        }
+
         PlatnaLista lista = pronadi(id).orElseThrow(() -> ApiException.nijePronadeno("Platna lista nije pronađena."));
-        String trazeni = format == null ? "json" : format;
-        Format odabrani = Format.JSON;
+        Format odabrani = Format.valueOf(trazeni);
         String napomena = null;
-        try {
-            odabrani = Format.valueOf(trazeni.trim().toUpperCase(Locale.ROOT));
-            if (!korisnik.isAdmin() && !lista.zaposlenik().equals(korisnik.username())) {
-                throw ApiException.nijePronadeno("Platna lista nije pronađena.");
-            }
-        } catch (IllegalArgumentException e) {
-            log.warn("Neuspjela obrada zahtjeva za platnu listu {}", id, e);
-            napomena = "Format nije prepoznat, prikazuje se JSON (" + e + ")";
+        if (!korisnik.isAdmin() && !lista.zaposlenik().equals(korisnik.username())) {
+            throw ApiException.nijePronadeno("Platna lista nije pronađena.");
         }
         return prikazi(lista, odabrani, napomena);
     }

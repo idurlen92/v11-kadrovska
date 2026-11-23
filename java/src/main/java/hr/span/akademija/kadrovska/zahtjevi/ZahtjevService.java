@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import hr.span.akademija.kadrovska.platforma.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,6 +25,16 @@ public class ZahtjevService {
     private static final Pattern OIB = Pattern.compile("\\d{11}");
 
     public record NoviZahtjev(LocalDate od, @JsonProperty("do") LocalDate doDatuma, String razlog, String oib) {
+
+        @Override
+        public String toString() {
+            return "NoviZahtjev{" +
+                    "od=" + od +
+                    ", doDatuma=" + doDatuma +
+                    ", razlog='" + StringUtils.replaceNewlines(razlog) + '\'' +
+                    ", oib='" + StringUtils.replaceNewlines(oib) + '\'' +
+                    '}';
+        }
     }
 
     public record Zahtjev(long id, String zaposlenik, LocalDate od, @JsonProperty("do") LocalDate doDatuma,
@@ -75,6 +87,9 @@ public class ZahtjevService {
     public void obrisi(long id, PrijavljeniKorisnik korisnik) {
         Zahtjev zahtjev = pronadi(id)
                 .orElseThrow(() -> ApiException.nijePronadeno("Zahtjev nije pronađen."));
+        if( !zahtjev.zaposlenik.equals(korisnik.username())){
+            throw ApiException.zabranjeno();
+        }
         jdbc.update("DELETE FROM zahtjevi WHERE id = ?", zahtjev.id());
         log.info("Zahtjev {} je povučen (korisnik {})", id, korisnik.username());
     }

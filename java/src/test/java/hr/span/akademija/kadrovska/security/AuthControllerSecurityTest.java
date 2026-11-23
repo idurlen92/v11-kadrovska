@@ -32,6 +32,7 @@ class AuthControllerSecurityTest extends ApiTestBaza {
     @AfterEach
     void postaviOriginalnuLozinku(){
         korisnikService.promijeniLozinku("ana", ORIGINAL_PASS);
+        jdbcTemplate.execute("DELETE FROM reset_tokeni WHERE username = 'ana'");
     }
 
     @Test

@@ -16,7 +16,7 @@ public class PlatnaListaSecurityTest extends ApiTestBaza {
 
         Odgovor odgovor = get("/api/platne-liste/1?format=yuea", tokenAna);
         assertThat(odgovor.status()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(odgovor.json().toString()).doesNotContain("IllegalArgumentException");
+        assertThat(odgovor.json().toString()).doesNotContain("Exception");
     }
 
 }
