@@ -1,1 +1,0 @@
-"""Testovi aplikacije Kadrovska."""

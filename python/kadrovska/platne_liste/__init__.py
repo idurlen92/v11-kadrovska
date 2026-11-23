@@ -1,1 +1,0 @@
-"""Platne liste zaposlenika."""
