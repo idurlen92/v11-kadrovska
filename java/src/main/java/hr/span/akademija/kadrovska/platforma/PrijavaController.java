@@ -94,7 +94,7 @@ public class PrijavaController {
                 return false;
             }
             String host = uri.getHost();
-            if(host == null || !"localhost".equals(host)){
+            if(!"localhost".equals(host)){
                 return false;
             }
 
@@ -103,18 +103,6 @@ public class PrijavaController {
                 if (isBlocked(address)) {
                     return false;
                 }
-            }
-
-            URL target = uri.toURL();
-            HttpURLConnection connection = (HttpURLConnection) target.openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("GET");
-
-            int status = connection.getResponseCode();
-            if (status >= 300 && status < 400) {
-                return false;
             }
 
             return true;
