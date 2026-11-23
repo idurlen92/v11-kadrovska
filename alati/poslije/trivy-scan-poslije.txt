@@ -1,0 +1,29 @@
+
+Report Summary
+
+┌─────────┬──────┬─────────────────┐
+│ Target  │ Type │ Vulnerabilities │
+├─────────┼──────┼─────────────────┤
+│ pom.xml │ pom  │        2        │
+└─────────┴──────┴─────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+pom.xml (pom)
+=============
+Total: 2 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 2)
+
+┌───────────────────────────────────┬────────────────┬──────────┬────────┬───────────────────┬───────────────┬──────────────────────────────────────────────────────────────┐
+│              Library              │ Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                            Title                             │
+├───────────────────────────────────┼────────────────┼──────────┼────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ org.springframework:spring-webmvc │ CVE-2026-47884 │ CRITICAL │ fixed  │ 6.2.19            │ 7.0.9         │ org.springframework/spring-webmvc: Spring Framework: Remote  │
+│                                   │                │          │        │                   │               │ Code Execution via improper path limitation in XsltView...   │
+│                                   │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-47884                   │
+│                                   ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│                                   │ CVE-2026-47890 │          │        │                   │               │ org.springframework/spring-webmvc:                           │
+│                                   │                │          │        │                   │               │ org.springframework/spring-webflux: Spring Framework: Stream │
+│                                   │                │          │        │                   │               │ corruption in Server-Sent Events (SSE) with view...          │
+│                                   │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-47890                   │
+└───────────────────────────────────┴────────────────┴──────────┴────────┴───────────────────┴───────────────┴──────────────────────────────────────────────────────────────┘
